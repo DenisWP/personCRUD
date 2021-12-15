@@ -10,6 +10,7 @@ const Router = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/pessoas" element={<Person/>}/>
             <Route path="/pessoas_cadastro" element={<PersonForm/>}/>
+            <Route path="/pessoas_cadastro/:id" element={<PersonForm/>}/>
         </Routes>
     );
 }

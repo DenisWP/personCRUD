@@ -1,8 +1,7 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
-import {Button, Form, Table} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import api from "../../../services/api";
-//import PersonInterf from "../../../types/PersonInterf"; //importando a tipagem
-
+import {useNavigate, useParams} from "react-router-dom";
 
 interface PersonInterf{
     title: string,
@@ -16,6 +15,15 @@ const Person = () => {
         body:'',
         userId: 0
     })
+    const navigate = useNavigate()
+    const {id} = useParams()
+
+
+    useEffect(() => {
+        if (id != undefined){
+            findPerson(id)
+        }
+    }, [id])
 
     function updatedPerson (e: ChangeEvent<HTMLInputElement>){
         setNewPerson({
@@ -26,8 +34,25 @@ const Person = () => {
 
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
-        const response = await api.post('/posts', newPerson)
-        console.log(response)
+        if (id != undefined){
+            const response = await api.put(`/posts${id}`, newPerson)
+        }else {
+            const response = await api.post('/posts', newPerson)
+        }
+        back()
+    }
+
+    async function findPerson(id: string | undefined){
+        const response = await api.get(`/posts/${id}`)
+        setNewPerson({
+            title: response.data.title,
+            body: response.data.body,
+            userId: response.data.userId
+        })
+    }
+
+    function back (){
+        navigate('/pessoas')
     }
 
 
@@ -36,7 +61,7 @@ const Person = () => {
             <br/>
             <div className="person-header">
                 <h3>Nova Pessoa</h3>
-                <Button variant="success">Voltar</Button>
+                <Button variant="success" onClick={back}>Voltar</Button>
             </div>
             <br/>
             <div className="container">
@@ -46,6 +71,7 @@ const Person = () => {
                         <Form.Control
                             type="text"
                             name="title"
+                            value={newPerson.title}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite seu nome completo"/>
                     </Form.Group>
@@ -55,6 +81,7 @@ const Person = () => {
                         <Form.Control
                             type="text"
                             name="body"
+                            value={newPerson.body}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite sua idade" />
                     </Form.Group>
@@ -64,6 +91,7 @@ const Person = () => {
                         <Form.Control
                             type="text"
                             name="userId"
+                            value={newPerson.userId}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite seu CPF" />
                     </Form.Group>

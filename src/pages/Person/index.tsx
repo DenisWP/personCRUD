@@ -10,6 +10,7 @@ const Person = () => {
     const [person, setPerson] = useState<PersonInterf[]>([])
     const navigate = useNavigate()
 
+
     //Usado para executar a funcao, assim que a página for iniciada.
     useEffect(() => {
         loadPerson();
@@ -24,6 +25,10 @@ const Person = () => {
 
     function newPessoa () {
         navigate('/pessoas_cadastro');
+    }
+
+    function editPessoa (id: number) {
+        navigate(`/pessoas_cadastro/${id}`);
     }
 
     return (
@@ -53,7 +58,7 @@ const Person = () => {
                                     <td>{person.body}</td>
                                     <td>{person.userId}</td>
                                     <td>
-                                        <Button size="sm">Editar</Button>{' '}
+                                        <Button size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>{' '}
                                         <Button size="sm" variant="danger">Excluir</Button>
                                     </td>
                             </tr>
