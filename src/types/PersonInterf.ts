@@ -7,7 +7,7 @@ interface PersonInterf {
     id: number
     title: string
     body: string
-    userId: number
+    userId: string
 }
 // @ts-ignore
 export default PersonInterf
