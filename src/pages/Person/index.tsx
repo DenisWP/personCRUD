@@ -10,7 +10,6 @@ const Person = () => {
     const [person, setPerson] = useState<PersonInterf[]>([])
     const navigate = useNavigate()
 
-
     //Usado para executar a funcao, assim que a página for iniciada.
     useEffect(() => {
         loadPerson();
@@ -31,17 +30,45 @@ const Person = () => {
         navigate(`/pessoas_cadastro/${id}`);
     }
 
+    async function deletePessoa(id: number){
+        await api.delete(`/posts/${id}`)
+        loadPerson()
+    }
+
+    function goInicio(){
+        navigate('/')
+    }
+
+    function searchTable(value: string){
+        const filteredData = [];
+        for (let i = 0; i < person.length; ++i){
+            const newValue = value.toLowerCase()
+            const user = person[i].title.toLowerCase()
+            if(user.includes(newValue)){
+                filteredData.push(person[i])
+            }
+        }
+        return filteredData
+    }
+
+    function handleInput(e: any){
+      const inputValue = e.target.value;
+      setPerson(searchTable(inputValue))
+    }
+
     return (
         <div className="container">
             <br/>
             <div className="person-header">
                 <h1>Pessoas</h1>
+                <input className="form-input" placeholder="Pesquise um usuário" onChange={handleInput}/>
                 <Button variant="success" onClick={newPessoa}>Nova Pessoa</Button>
+                <Button variant="secondary" onClick={goInicio}>Voltar</Button>
             </div>
             <br/>
-                <Table striped bordered hover className="text-center">
+                <Table striped bordered hover className="responsive-table">
                     <thead>
-                    <tr>
+                    <tr className="text-center">
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Idade</th>
@@ -57,9 +84,10 @@ const Person = () => {
                                     <td>{person.title}</td>
                                     <td>{person.body}</td>
                                     <td>{person.userId}</td>
-                                    <td>
-                                        <Button size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>{' '}
-                                        <Button size="sm" variant="danger">Excluir</Button>
+                                    <td className="button-table">
+                                        <Button variant="info" size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>
+                                        <th/><th/>
+                                        <Button variant="danger" size="sm" onClick={() => deletePessoa(person.id)}>Excluir</Button>
                                     </td>
                             </tr>
                             )

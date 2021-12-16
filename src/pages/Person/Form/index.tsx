@@ -1,16 +1,12 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import api from "../../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
+import PersonFormInterf from "../../../types/PersonFormInterf";
 
-interface PersonInterf{
-    title: string,
-    body: string,
-    userId: number
-}
 
 const Person = () => {
-    const [newPerson, setNewPerson] = useState<PersonInterf>({
+    const [newPerson, setNewPerson] = useState<PersonFormInterf>({
         title: '',
         body:'',
         userId: 0
@@ -18,9 +14,8 @@ const Person = () => {
     const navigate = useNavigate()
     const {id} = useParams()
 
-
     useEffect(() => {
-        if (id != undefined){
+        if (id !== undefined){
             findPerson(id)
         }
     }, [id])
@@ -34,7 +29,7 @@ const Person = () => {
 
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
-        if (id != undefined){
+        if (id !== undefined){
             const response = await api.put(`/posts${id}`, newPerson)
         }else {
             const response = await api.post('/posts', newPerson)
@@ -73,7 +68,9 @@ const Person = () => {
                             name="title"
                             value={newPerson.title}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Digite seu nome completo"/>
+                            placeholder="Digite seu nome completo"
+                            required
+                        />
                     </Form.Group>
                     <br/>
                     <Form.Group>
@@ -83,7 +80,9 @@ const Person = () => {
                             name="body"
                             value={newPerson.body}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Digite sua idade" />
+                            placeholder="Digite sua idade"
+                            required
+                        />
                     </Form.Group>
                     <br/>
                     <Form.Group>
@@ -93,10 +92,12 @@ const Person = () => {
                             name="userId"
                             value={newPerson.userId}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Digite seu CPF" />
+                            placeholder="Digite seu CPF"
+                            required
+                        />
                     </Form.Group>
                     <br/>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" size="lg">
                         Salvar
                     </Button>
                 </Form>

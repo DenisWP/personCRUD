@@ -9,5 +9,4 @@ interface PersonInterf {
     body: string
     userId: string
 }
-// @ts-ignore
 export default PersonInterf
