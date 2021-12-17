@@ -2,7 +2,7 @@ import React from "react";
 import {Routes, Route} from 'react-router-dom'
 import Home from './pages/Home/Index'
 import Person from './pages/Person/Index'
-import PersonForm from './pages/Person/Form/Index'
+import PersonForm from './pages/Person/Form/IndexForm'
 import PersonAddress from './pages/Person/Form/Address'
 
 const Router = () => {
@@ -13,7 +13,6 @@ const Router = () => {
             <Route path="/pessoas_cadastro" element={<PersonForm/>}/>
             <Route path="/pessoas_cadastro/:id" element={<PersonForm/>}/>
             <Route path="/address" element={<PersonAddress/>}/>
-            <Route path="/address/:id" element={<PersonAddress/>}/>
         </Routes>
     );
 }

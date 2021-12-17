@@ -1,20 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
-import PersonInterf from "../../../types/PersonInterf";
 
-const Address = () => {
+const Address = (props: any) => {
     const navigate = useNavigate()
-
-
 
     function goPerson (){
         navigate('/pessoas_cadastro')
     }
 
-    return(
-        <Form className="container">
+   return(
 
+        <Form className="container">
             <Row className="mb-4">
                 <Form.Group as={Col} controlId="formGridCep">
                     <Form.Label>CEP</Form.Label>

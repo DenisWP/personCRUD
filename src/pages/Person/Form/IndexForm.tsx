@@ -30,6 +30,7 @@ const Person = () => {
         e.preventDefault()
         if (id !== undefined){
             const response = await api.put(`/users/${id}`, newPerson)
+            navigate('/address',{state: {userId: id }}) // Passando o id para a tela de endereo
         }else {
             const response = await api.post('/users', newPerson)
         }
