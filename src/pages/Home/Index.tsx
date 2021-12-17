@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Card} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import ImgPerson from '../../pictures/personCRUD.png'
+import ImgPerson from '../../pictures/person.png'
 
 const Home = () => {
 
@@ -15,7 +15,7 @@ const Home = () => {
         <br/>
         <div className="home-header"/>
         <br/>
-        <Card style={{ width: '20rem' }}>
+        <Card style={{ width: '16rem', margin: "auto"}}>
             <Card.Img variant="top" src={ImgPerson} />
             <Card.Body>
                 <Card.Title>CRUD de Pessoas</Card.Title>

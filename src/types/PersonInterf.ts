@@ -5,8 +5,8 @@ interface PersonInterf {
     cpf: string*/
 
     id: number
-    title: string
-    body: string
-    userId: string
+    name: string
+    username: string
+    email: string
 }
 export default PersonInterf

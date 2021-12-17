@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import {Button, Table} from "react-bootstrap";
 import api from "../../services/api";
 import PersonInterf from "../../types/PersonInterf"; //importando a tipagem
-import './index.css'
+import './Index.css'
 
 const Person = () => {
     //Declarando variável para pegar os dados da API
@@ -17,7 +17,7 @@ const Person = () => {
 
     async function loadPerson (){
         //Mudar o servico depois
-        const response = await api.get('/posts')
+        const response = await api.get('/users')
         console.log(response)
         setPerson(response.data)
     }
@@ -31,7 +31,7 @@ const Person = () => {
     }
 
     async function deletePessoa(id: number){
-        await api.delete(`/posts/${id}`)
+        await api.delete(`/users/${id}`)
         loadPerson()
     }
 
@@ -43,7 +43,7 @@ const Person = () => {
         const filteredData = [];
         for (let i = 0; i < person.length; ++i){
             const newValue = value.toLowerCase()
-            const user = person[i].title.toLowerCase()
+            const user = person[i].name.toLowerCase()
             if(user.includes(newValue)){
                 filteredData.push(person[i])
             }
@@ -81,12 +81,11 @@ const Person = () => {
                         person.map(person => (
                             <tr key={person.id}>
                                     <td>{person.id}</td>
-                                    <td>{person.title}</td>
-                                    <td>{person.body}</td>
-                                    <td>{person.userId}</td>
-                                    <td className="button-table">
-                                        <Button variant="info" size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>
-                                        <th/><th/>
+                                    <td>{person.name}</td>
+                                    <td>{person.username}</td>
+                                    <td>{person.email}</td>
+                                    <td>
+                                        <Button variant="info" size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>{'      '}
                                         <Button variant="danger" size="sm" onClick={() => deletePessoa(person.id)}>Excluir</Button>
                                     </td>
                             </tr>

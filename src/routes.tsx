@@ -1,8 +1,9 @@
 import React from "react";
 import {Routes, Route} from 'react-router-dom'
-import Home from './pages/Home'
-import Person from './pages/Person'
-import PersonForm from './pages/Person/Form'
+import Home from './pages/Home/Index'
+import Person from './pages/Person/Index'
+import PersonForm from './pages/Person/Form/Index'
+import PersonAddress from './pages/Person/Form/Address'
 
 const Router = () => {
     return(
@@ -11,6 +12,7 @@ const Router = () => {
             <Route path="/pessoas" element={<Person/>}/>
             <Route path="/pessoas_cadastro" element={<PersonForm/>}/>
             <Route path="/pessoas_cadastro/:id" element={<PersonForm/>}/>
+            <Route path="/address" element={<PersonAddress/>}/>
         </Routes>
     );
 }

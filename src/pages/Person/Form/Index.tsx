@@ -1,15 +1,14 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
-import {Button, Form, Spinner} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import api from "../../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import PersonFormInterf from "../../../types/PersonFormInterf";
 
-
 const Person = () => {
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
-        title: '',
-        body:'',
-        userId: 0
+        name: '',
+        username:'',
+        email: ''
     })
     const navigate = useNavigate()
     const {id} = useParams()
@@ -30,19 +29,19 @@ const Person = () => {
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
         if (id !== undefined){
-            const response = await api.put(`/posts${id}`, newPerson)
+            const response = await api.put(`/users/${id}`, newPerson)
         }else {
-            const response = await api.post('/posts', newPerson)
+            const response = await api.post('/users', newPerson)
         }
-        back()
+       goAddress()
     }
 
     async function findPerson(id: string | undefined){
-        const response = await api.get(`/posts/${id}`)
+        const response = await api.get(`/users/${id}`)
         setNewPerson({
-            title: response.data.title,
-            body: response.data.body,
-            userId: response.data.userId
+            name: response.data.name,
+            username: response.data.username,
+            email: response.data.email
         })
     }
 
@@ -50,13 +49,15 @@ const Person = () => {
         navigate('/pessoas')
     }
 
+    function goAddress (){
+        navigate('/address')
+    }
 
     return (
         <div className="container">
             <br/>
             <div className="person-header">
-                <h3>Nova Pessoa</h3>
-                <Button variant="success" onClick={back}>Voltar</Button>
+                <h3>Dados Pessoais</h3>
             </div>
             <br/>
             <div className="container">
@@ -66,10 +67,9 @@ const Person = () => {
                         <Form.Control
                             type="text"
                             name="title"
-                            value={newPerson.title}
+                            value={newPerson.name}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite seu nome completo"
-                            required
                         />
                     </Form.Group>
                     <br/>
@@ -78,10 +78,9 @@ const Person = () => {
                         <Form.Control
                             type="text"
                             name="body"
-                            value={newPerson.body}
+                            value={newPerson.username}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite sua idade"
-                            required
                         />
                     </Form.Group>
                     <br/>
@@ -90,15 +89,15 @@ const Person = () => {
                         <Form.Control
                             type="text"
                             name="userId"
-                            value={newPerson.userId}
+                            value={newPerson.email}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Digite seu CPF"
-                            required
+                            placeholder="Ex: 000.000.000-00"
                         />
                     </Form.Group>
                     <br/>
-                    <Button variant="primary" type="submit" size="lg">
-                        Salvar
+                    <Button variant="success" onClick={back}>Voltar</Button> {'   '}
+                    <Button variant="primary" type="submit">
+                        Próximo
                     </Button>
                 </Form>
             </div>
