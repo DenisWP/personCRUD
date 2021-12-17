@@ -66,7 +66,7 @@ const Person = () => {
                         <Form.Label>Nome completo</Form.Label>
                         <Form.Control
                             type="text"
-                            name="title"
+                            name="name"
                             value={newPerson.name}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite seu nome completo"
@@ -77,7 +77,7 @@ const Person = () => {
                         <Form.Label>Idade</Form.Label>
                         <Form.Control
                             type="text"
-                            name="body"
+                            name="username"
                             value={newPerson.username}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Digite sua idade"
@@ -88,7 +88,7 @@ const Person = () => {
                         <Form.Label>CPF</Form.Label>
                         <Form.Control
                             type="text"
-                            name="userId"
+                            name="email"
                             value={newPerson.email}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Ex: 000.000.000-00"

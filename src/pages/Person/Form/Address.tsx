@@ -1,15 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import PersonInterf from "../../../types/PersonInterf";
 
 const Address = () => {
     const navigate = useNavigate()
-
-
-
-
-
-
 
 
 

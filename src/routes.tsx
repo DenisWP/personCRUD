@@ -13,6 +13,7 @@ const Router = () => {
             <Route path="/pessoas_cadastro" element={<PersonForm/>}/>
             <Route path="/pessoas_cadastro/:id" element={<PersonForm/>}/>
             <Route path="/address" element={<PersonAddress/>}/>
+            <Route path="/address/:id" element={<PersonAddress/>}/>
         </Routes>
     );
 }
