@@ -1,5 +1,5 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 import api from "../../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import PersonFormInterf from "../../../types/PersonFormInterf";
@@ -17,7 +17,6 @@ const Person = () => {
     useEffect(() => {
         if (id !== undefined){
             findPerson(id)
-            console.log(id)
         }
     }, [id])
 
@@ -33,11 +32,9 @@ const Person = () => {
         if (id !== undefined){
             const response = await api.put(`/users/${id}`, newPerson)
             navigate(`/address/${id}`)
-            console.log(response)
         }else {
             const response = await api.post('/users', newPerson)
             navigate('/address')
-            console.log(response)
         }
     }
 
