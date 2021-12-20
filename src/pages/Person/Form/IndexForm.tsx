@@ -5,17 +5,19 @@ import {useNavigate, useParams} from "react-router-dom";
 import PersonFormInterf from "../../../types/PersonFormInterf";
 
 const Person = () => {
+    const navigate = useNavigate()
+    const {id} = useParams()
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
         name: '',
         username:'',
         email: ''
     })
-    const navigate = useNavigate()
-    const {id} = useParams()
+
 
     useEffect(() => {
         if (id !== undefined){
             findPerson(id)
+            console.log(id)
         }
     }, [id])
 
@@ -30,15 +32,16 @@ const Person = () => {
         e.preventDefault()
         if (id !== undefined){
             const response = await api.put(`/users/${id}`, newPerson)
-            //navigate('/address',{state: {userId: id }}) // Passando o id para a tela de endereo
             navigate(`/address/${id}`)
+            console.log(response)
         }else {
             const response = await api.post('/users', newPerson)
+            navigate('/address')
+            console.log(response)
         }
-       goAddress()
     }
 
-    async function findPerson(id: string | undefined){
+    async function findPerson(id: string){
         const response = await api.get(`/users/${id}`)
         setNewPerson({
             name: response.data.name,
@@ -49,10 +52,6 @@ const Person = () => {
 
     function back (){
         navigate('/pessoas')
-    }
-
-    function goAddress (){
-        navigate('/address')
     }
 
     return (

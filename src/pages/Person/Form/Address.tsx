@@ -2,12 +2,11 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {Button, Col, Form, FormControl, Row} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import AddressFormInterf from "../../../types/AddressFormInterf";
-import api from "../../../services/api";
 import axios from "axios";
 
 const Address = () => {
     const navigate = useNavigate()
-    const {id} = useParams()
+    const {id } = useParams()
     const [address, setAddress] = useState<AddressFormInterf>({
         zipcode: '',//cep
         street: '', // longradouro
@@ -19,8 +18,9 @@ const Address = () => {
     })
 
     useEffect(() => {
-        findAddress(id)
-        console.log(id)
+        if (id !== undefined){
+            findAddress(id)
+        }
     }, [id])
 
     // Funcao para atualizar os valores do endereco,d e acordo com cada campo
@@ -31,15 +31,7 @@ const Address = () => {
         })
     }
 
-    // Funcao para enviar os dados para o BD (api do Elizeu)
-    async function onSubmit (e: ChangeEvent<HTMLFormElement>){
-        e.preventDefault()
-        //Comunicacao com API
-        const response = await axios.post('https://jsonplaceholder.typicode.com/users/', address)
-        console.log(response)
-    }
-
-    async function findAddress (id: string | undefined ){
+    async function findAddress (id: string){
         const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
         console.log(response)
         setAddress({
@@ -47,15 +39,40 @@ const Address = () => {
             street: response.data.address.street,
             number: response.data.address.number,
             suite: response.data.address.suite,
-            bairro: response.data.address.bairro,
+            bairro: response.data.address.city,
             city: response.data.address.city,
             estado: response.data.address.estado
         })
     }
 
-    function goPerson (){
-        navigate('/pessoas_cadastro')
+
+    // Funcao para enviar os dados para o BD (api do Elizeu)
+    async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
+        e.preventDefault()
+        if (id !== undefined){
+            const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, address)
+            console.log(response)
+        }else {
+            const response = await axios.post('https://jsonplaceholder.typicode.com/users/', address)
+            console.log(id)
+        }
+       goHome()
     }
+
+
+    function goPerson (){
+        if (id !== undefined){
+            navigate(`/pessoas_cadastro/${id}`)
+        }else {
+            navigate(`/pessoas_cadastro`)
+        }
+
+    }
+
+    function goHome(){
+        navigate('/pessoas')
+    }
+
 
    return(
         <Form className="container" onSubmit={onSubmit}>
@@ -131,12 +148,20 @@ const Address = () => {
 
                 <Form.Group as={Col} controlId="formGridUF">
                     <Form.Label>UF</Form.Label>
-                    <Form.Select
+                    {/*<Form.Select
                             name="estado"
+                            value={address.estado}
                             defaultValue="Pesquisar...">
                         <option>Pesquisar...</option>
-                        <option>...</option>
-                    </Form.Select>
+                        <option>MG</option>
+                    </Form.Select>*/}
+                    <Form.Control
+                        type="text"
+                        name="estado"
+                        value={address.estado}
+                        onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
+                    />
+
                 </Form.Group>
             </Row>
             <Button variant="success" onClick={goPerson}>Voltar</Button>{'  '}
