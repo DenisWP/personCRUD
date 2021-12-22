@@ -3,26 +3,40 @@ import {screen, render} from "@testing-library/react";
 import '@testing-library/jest-dom'
 import {MemoryRouter} from "react-router-dom";
 import Person from "./Person";
+import {useNavigate} from "react-router-dom";
+import userEvent from "@testing-library/user-event";
+
+
+const getVoltarButton = () => screen.getByRole('button', {name: /Voltar/i})
+const getNovaPessoa = () => screen.getByRole('button', {name: /Nova Pessoa/i})
+const mockNavigateCadPessoa = jest.fn()
+
+//Mocks do navigation
+jest.mock('react-router-dom', () => ({
+    useNavigate: mockNavigateCadPessoa
+}))
+
+
 
 describe('Verificar os botões "Nova Pessoa" e "Voltar" estão presentes no componente', () => {
+
+    test('Verificar se ao clicar no botão "Nova Pessoa" irá direcionar para a tela de cadastro', () => {
+        render(<Person/>)
+        userEvent.click(getNovaPessoa())
+        expect(mockNavigateCadPessoa).toHaveBeenCalledTimes(1)
+        expect(mockNavigateCadPessoa).toHaveBeenCalledWith('/pessoas_cadastro')
+    })
+
+
+    {/*Testes simples para validar se os botoes estao sendo apresentados*/}
     test('Verificnado a exibição do botão Voltar', () => {
-        render(
-            <MemoryRouter>
-                <Person/>
-            </MemoryRouter>
-        )
-        const buttonVoltar = screen.getByRole('button', {name: /Voltar/i})
-        expect(buttonVoltar).toBeInTheDocument()
+        render(<Person/>)
+        expect(getVoltarButton()).toBeInTheDocument()
     })
 
     test('Verificnado a exibição do botão nova pessoa', () => {
-        render(
-            <MemoryRouter>
-                <Person/>
-            </MemoryRouter>
-        )
-        const buttonNovaPessoa = screen.getByRole('button', {name: /Nova Pessoa/i})
-        expect(buttonNovaPessoa).toBeInTheDocument()
+        render(<Person/>)
+        expect(getNovaPessoa()).toBeInTheDocument()
     })
 
 })
