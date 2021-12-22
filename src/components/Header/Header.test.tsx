@@ -5,7 +5,7 @@ import Hearder from "./Hearder";
 import {MemoryRouter} from "react-router-dom";
 
 describe('<Header/>', () => {
-        test('Validar se o T[itulo será apresentado', () => {
+        test('Validar se o Titulo será apresentado', () => {
             render(
                 <MemoryRouter>
                     <Hearder/>
