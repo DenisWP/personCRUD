@@ -68,7 +68,7 @@ const Person = () => {
                             name="name"
                             value={newPerson.name}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Digite seu nome completo"
+                            placeholder="Nome completo"
                         />
                     </Form.Group>
                     <br/>
@@ -80,7 +80,7 @@ const Person = () => {
                             name="username"
                             value={newPerson.username}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Digite sua idade"
+                            placeholder="Idade"
                         />
                     </Form.Group>
                     <br/>
@@ -92,7 +92,7 @@ const Person = () => {
                             name="email"
                             value={newPerson.email}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
-                            placeholder="Ex: 000.000.000-00"
+                            placeholder="CPF"
                         />
                     </Form.Group>
                     <br/>

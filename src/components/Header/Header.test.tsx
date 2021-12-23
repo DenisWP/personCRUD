@@ -8,8 +8,8 @@ describe('<Header/>', () => {
             render(
                 <MemoryRouter>
                     <Hearder/>
-                </MemoryRouter>            )
-
+                </MemoryRouter>
+            )
             const navTitile = screen.getByText("Person CRUD")
             expect(navTitile).toBeInTheDocument()
         })
