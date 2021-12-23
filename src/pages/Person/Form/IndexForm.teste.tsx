@@ -13,11 +13,6 @@ const getAge = () => screen.getByTestId('agePerson')
 const getCpf = () => screen.getByTestId('cpfPerson')
 
 describe('<IndexForm/>', () => {
-
-
-
-
-
     test('Validar os inputs do formulário de cadastro de uma pessoa', () =>{
         render(<IndexForm/>)
     })
