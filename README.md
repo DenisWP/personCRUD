@@ -8,3 +8,5 @@ Projeto criado com intuito de aprendizado.
 - React bootstrap
 - Axios
 - TypeScript
+- Jest
+- React Library Testing
