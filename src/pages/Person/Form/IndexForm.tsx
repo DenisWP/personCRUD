@@ -63,6 +63,7 @@ const Person = () => {
                     <Form.Group>
                         <Form.Label>Nome completo</Form.Label>
                         <Form.Control
+                            id="namePerson"
                             type="text"
                             name="name"
                             value={newPerson.name}
@@ -74,6 +75,7 @@ const Person = () => {
                     <Form.Group>
                         <Form.Label>Idade</Form.Label>
                         <Form.Control
+                            id="agePerson"
                             type="text"
                             name="username"
                             value={newPerson.username}
@@ -85,6 +87,7 @@ const Person = () => {
                     <Form.Group>
                         <Form.Label>CPF</Form.Label>
                         <Form.Control
+                            id="cpfPerson"
                             type="text"
                             name="email"
                             value={newPerson.email}
