@@ -52,14 +52,14 @@ const Person = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container" >
             <br/>
             <div className="person-header">
                 <h3>Dados Pessoais</h3>
             </div>
             <br/>
             <div className="container">
-                <Form onSubmit={onSubmit}>
+                <Form onSubmit={onSubmit} role="form">
                     <Form.Group>
                         <Form.Label>Nome completo</Form.Label>
                         <Form.Control
