@@ -1,7 +1,9 @@
 import {screen, render} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"
 import {MemoryRouter} from "react-router-dom";
 import IndexForm from "./IndexForm";
+
 
 const fakPerson = {
     name: 'Denis Fake Name',
@@ -30,4 +32,15 @@ describe('<IndexForm/>', () => {
     })
 })
 
-describe()
+describe('Function Back', () => {
+    test('Validação da Funçao back', () => {
+        render(
+            <MemoryRouter>
+                <IndexForm/>
+            </MemoryRouter>
+        )
+     userEvent.click(buttonVoltar())
+     expect(mockNavigateCadPessoa).toHaveBeenCalledTimes(1)
+     expect(mockNavigateCadPessoa).toHaveBeenCalledWith('/pessoas')
+ })
+})
