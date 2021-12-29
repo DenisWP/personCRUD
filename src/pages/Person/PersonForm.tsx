@@ -3,6 +3,7 @@ import {Alert, Button, Form} from "react-bootstrap";
 import api from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import PersonFormInterf from "../../types/PersonFormInterf";
+import {cpfMask} from "./Mask";
 
 const Person = () => {
     const navigate = useNavigate()
@@ -89,7 +90,7 @@ const Person = () => {
                             id="cpfPerson"
                             type="text"
                             name="email"
-                            value={newPerson.email}
+                            value={cpfMask(newPerson.email)}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="CPF"
                         />
