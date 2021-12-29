@@ -6,7 +6,7 @@ import axios from "axios";
 
 const AddressForm = () => {
     const navigate = useNavigate()
-    const {id } = useParams()
+    const {id, zipcode} = useParams()
     const [address, setAddress] = useState<AddressFormInterf>({
         zipcode: '',//cep
         street: '', // longradouro
@@ -20,10 +20,13 @@ const AddressForm = () => {
     useEffect(() => {
         if (id !== undefined){
             findAddress(id)
+                if(zipcode !== undefined){
+                    viaCEP(zipcode)
+                }
         }
-    }, [id])
+    }, [id, zipcode])
 
-    // Funcao para atualizar os valores do endereco,d e acordo com cada campo
+    // Funcao para atualizar os valores do endereco, de acordo com cada campo
     function updateAddress (e: ChangeEvent<HTMLInputElement>){
         setAddress({
             ...address,
@@ -45,6 +48,26 @@ const AddressForm = () => {
         })
     }
 
+    async function viaCEP (zipcode: string) {
+        if(zipcode.length !== 8){
+            alert("CEP Inválido")
+        }
+        const responseCep = await  axios.get(`https://viacep.com.br/ws/${zipcode}/json`)
+        console.log(responseCep)
+        if (responseCep.data.erro == true){
+            alert("CEP não encontrado ou Desatualizado ! Porém, o cadastro poderá ser concluído. ")
+        }else {
+            setAddress({
+                zipcode: responseCep.data.cep,
+                street: responseCep.data.logradouro,
+                number: responseCep.data.number,
+                suite: responseCep.data.suite,
+                bairro: responseCep.data.bairro,
+                city: responseCep.data.localidade,
+                estado: responseCep.data.uf
+            })
+        }
+    }
 
     // Funcao para enviar os dados para o BD (api do Elizeu)
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
@@ -59,14 +82,12 @@ const AddressForm = () => {
        goHome()
     }
 
-
     function goPerson (){
         if (id !== undefined){
             navigate(`/pessoas_cadastro/${id}`)
         }else {
             navigate(`/pessoas_cadastro`)
         }
-
     }
 
     function goHome(){
@@ -76,6 +97,11 @@ const AddressForm = () => {
 
    return(
         <Form className="container" onSubmit={onSubmit}>
+            <br/>
+            <div className="person-header">
+                <h3>Endereço</h3>
+            </div>
+            <br/>
             <Row className="mb-4">
                 <Form.Group as={Col} controlId="formGridCep">
                     <Form.Label>CEP</Form.Label>
@@ -87,7 +113,13 @@ const AddressForm = () => {
                         placeholder="Digite o CEP"
                     />
                 </Form.Group>
+                <Form.Group as={Col}>
+                    <Form.Label>ViaCEP</Form.Label><br/>
+                    <Button onClick={() => viaCEP(address.zipcode)}>Pesquisar</Button>
+                </Form.Group>
+            </Row>
 
+            <Row className="mb-4">
                 <Form.Group as={Col} controlId="formGridLongradouro">
                     <Form.Label>Longradouro</Form.Label>
                     <Form.Control
@@ -99,6 +131,7 @@ const AddressForm = () => {
                     />
                 </Form.Group>
             </Row>
+
 
             <Row className="mb-4">
                 <Form.Group as={Col} controlId="formGridNumero">
