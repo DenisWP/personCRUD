@@ -18,7 +18,7 @@ const CrudPerson = () => {
 
     async function loadPerson (){
         //Mudar o servico depois
-        const response = await api.get('/users')
+        const response = await api.get('/person')
         console.log(response)
         setPerson(response.data)
     }
@@ -32,7 +32,7 @@ const CrudPerson = () => {
     }
 
     async function deletePessoa(id: number){
-        await api.delete(`/users/${id}`)
+        await api.delete(`/person/${id}`)
         loadPerson()
     }
 
@@ -82,8 +82,8 @@ const CrudPerson = () => {
                             <tr key={person.id}>
                                 <td>{person.id}</td>
                                 <td>{person.name}</td>
-                                <td>{person.username}</td>
-                                <td>{person.email}</td>
+                                <td>{person.age}</td>
+                                <td>{person.cpf}</td>
                                 <td>
                                     <Button variant="info" size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>{'         '}
                                     <Button variant="danger" size="sm" onClick={() => deletePessoa(person.id)}>Excluir</Button>

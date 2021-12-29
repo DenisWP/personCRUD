@@ -1,5 +1,5 @@
 interface PersonFormInterf {
     name: string
-    username: string
-    email: string
+    age: number
+    cpf: string
 } export default PersonFormInterf

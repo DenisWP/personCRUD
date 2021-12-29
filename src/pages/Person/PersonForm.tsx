@@ -10,8 +10,8 @@ const Person = () => {
     const {id} = useParams()
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
         name: '',
-        username:'',
-        email: ''
+        age: 0,
+        cpf: ''
     })
 
     useEffect(() => {
@@ -30,20 +30,20 @@ const Person = () => {
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
         if (id !== undefined){
-            const response = await api.put(`/users/${id}`, newPerson)
+            const response = await api.put(`/person/${id}`, newPerson)
             navigate(`/address/${id}`)
         }else {
-            const response = await api.post('/users', newPerson)
+            const response = await api.post('/person', newPerson)
             navigate('/address')
         }
     }
 
     async function findPerson(id: string){
-        const response = await api.get(`/users/${id}`)
+        const response = await api.get(`/person/${id}`)
         setNewPerson({
             name: response.data.name,
-            username: response.data.username,
-            email: response.data.email
+            age: response.data.age,
+            cpf: response.data.cpf
         })
     }
 
@@ -76,9 +76,9 @@ const Person = () => {
                         <Form.Label>Idade</Form.Label>
                         <Form.Control
                             id="agePerson"
-                            type="text"
-                            name="username"
-                            value={newPerson.username}
+                            type="number"
+                            name="age"
+                            value={newPerson.age}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Idade"
                         />
@@ -89,8 +89,8 @@ const Person = () => {
                         <Form.Control
                             id="cpfPerson"
                             type="text"
-                            name="email"
-                            value={cpfMask(newPerson.email)}
+                            name="cpf"
+                            value={cpfMask(newPerson.cpf)}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="CPF"
                         />
