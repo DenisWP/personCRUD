@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Card} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import ImgPerson from '../../pictures/person.png'
+import {CardHome, CardBody } from './Home.styles'
 
 const Home = () => {
 
@@ -14,18 +15,17 @@ const Home = () => {
     return (
         <div className="container">
             <br/>
-            <div className="home-header"/>
+            <div/>
             <br/>
-            <Card style={{ width: '20rem', margin: "auto"}}>
+            <CardHome>
                 <Card.Img variant="top" src={ImgPerson} />
-                <Card.Body>
-                    <Card.Title>CRUD de Pessoas</Card.Title>
+                <CardBody>
                     <Card.Text>
-                        Simples projeto para estudo sobre desenvolvimento WEB.
+                        Estudo sobre Desenvolvimento WEB.
                     </Card.Text>
-                    <Button variant="primary" onClick={goPessoa}>Iniciar</Button>
-                </Card.Body>
-            </Card>
+                    <Button onClick={goPessoa}>Iniciar</Button>
+                </CardBody>
+            </CardHome>
         </div>
     )}
 export default Home;
