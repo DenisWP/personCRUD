@@ -1,8 +1,8 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
 import {Alert, Button, Form} from "react-bootstrap";
-import api from "../../../services/api";
+import api from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
-import PersonFormInterf from "../../../types/PersonFormInterf";
+import PersonFormInterf from "../../types/PersonFormInterf";
 
 const Person = () => {
     const navigate = useNavigate()
@@ -12,7 +12,6 @@ const Person = () => {
         username:'',
         email: ''
     })
-
 
     useEffect(() => {
         if (id !== undefined){

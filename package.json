@@ -46,6 +46,8 @@
     ]
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^5.5.1",
+    "@stryker-mutator/jest-runner": "^5.5.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@types/react-router-dom": "^5.3.2"
   }

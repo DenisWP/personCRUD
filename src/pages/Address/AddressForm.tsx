@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {Button, Col, Form, FormControl, Row} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
-import AddressFormInterf from "../../../types/AddressFormInterf";
+import AddressFormInterf from "../../types/AddressFormInterf";
 import axios from "axios";
 
-const Address = () => {
+const AddressForm = () => {
     const navigate = useNavigate()
     const {id } = useParams()
     const [address, setAddress] = useState<AddressFormInterf>({
@@ -171,4 +171,4 @@ const Address = () => {
         </Form>
     );
 }
-export default Address
+export default AddressForm

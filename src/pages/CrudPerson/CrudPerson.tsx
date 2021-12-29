@@ -5,7 +5,7 @@ import api from "../../services/api";
 import PersonInterf from "../../types/PersonInterf"; //importando a tipagem
 import './Index.css'
 
-const Person = () => {
+const CrudPerson = () => {
     //Declarando variável para pegar os dados da API
     const [person, setPerson] = useState<PersonInterf[]>([])
     const navigate = useNavigate()
@@ -97,4 +97,4 @@ const Person = () => {
         </div>
     );
 }
-export default Person
+export default CrudPerson

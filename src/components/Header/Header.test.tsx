@@ -10,7 +10,7 @@ describe('<Header/>', () => {
                     <Hearder/>
                 </MemoryRouter>
             )
-            const navTitile = screen.getByText("Person CRUD")
+            const navTitile = screen.getByText("CrudPerson CRUD")
             expect(navTitile).toBeInTheDocument()
         })
 })
