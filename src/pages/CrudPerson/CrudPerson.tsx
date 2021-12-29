@@ -3,7 +3,8 @@ import {useNavigate} from 'react-router-dom'
 import {Button, Table} from "react-bootstrap";
 import api from "../../services/api";
 import PersonInterf from "../../types/PersonInterf"; //importando a tipagem
-import './Index.css'
+import './CrudPerson.styles'
+import { TableHeader } from './CrudPerson.styles'
 
 const CrudPerson = () => {
     //Declarando variável para pegar os dados da API
@@ -59,12 +60,11 @@ const CrudPerson = () => {
     return (
         <div className="container">
             <br/>
-            <div className="person-header">
-                <h1>Pessoas</h1>
+            <TableHeader>
                 <input className="form-input" placeholder="Pesquise um usuário" onChange={handleInput}/>
                 <Button variant="success" onClick={newPessoa}>Nova Pessoa</Button>
                 <Button variant="secondary" onClick={goInicio}>Voltar</Button>
-            </div>
+            </TableHeader>
             <br/>
             <Table striped bordered hover className="responsive-table">
                 <thead>
@@ -85,7 +85,7 @@ const CrudPerson = () => {
                                 <td>{person.username}</td>
                                 <td>{person.email}</td>
                                 <td>
-                                    <Button variant="info" size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>{'      '}
+                                    <Button variant="info" size="sm" onClick={() => editPessoa(person.id)}>Editar</Button>{'         '}
                                     <Button variant="danger" size="sm" onClick={() => deletePessoa(person.id)}>Excluir</Button>
                                 </td>
                             </tr>
