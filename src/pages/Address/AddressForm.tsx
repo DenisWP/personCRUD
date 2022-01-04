@@ -49,7 +49,7 @@ const AddressForm = () => {
         if (id == response.data.id_pessoa) {
             console.log(response)
             setAddress({
-                id_pessoa: response.data.id_pessoa,
+                id_pessoa: id, //id da pessoa vindo da API da Natali
                 cep: response.data.cep,
                 logradouro: response.data.logradouro,
                 numero: response.data.numero,
@@ -89,8 +89,8 @@ const AddressForm = () => {
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
         if (id !== undefined){
-            //const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, address)
-            const response = await apiEndereco.put(`/endereco/${id}`, address)
+            const responseAddress = await apiEndereco.get(`/pessoa/${id}`)
+            const response = await apiEndereco.put(`/endereco/${responseAddress.data.id}`, address)
             console.log(response)
         }else {
             const response = await apiEndereco.post(`/endereco/`, address)
