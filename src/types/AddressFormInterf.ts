@@ -1,11 +1,11 @@
 interface AddressFormInterf {
     //Mudar quando alterar para api do Elizeu.
-
-    zipcode: string //cep
-    street: string // longradouro
-    number: number //numero
-    suite: string //complemento
+    id_pessoa: string // id_pessoa
+    cep: string //cep
+    logradouro: string // longradouro
+    numero: number //numero
+    complemento: string //complemento
     bairro: string // bairro
-    city: string // cidade
-    estado: string //estado
+    cidade: string // cidade
+    uf: string //estado
 }export default AddressFormInterf

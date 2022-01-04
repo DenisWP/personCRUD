@@ -10,7 +10,7 @@ describe('<Header/>', () => {
                     <Hearder/>
                 </MemoryRouter>
             )
-            const navTitile = screen.getByText("CrudPerson CRUD")
+            const navTitile = screen.getByText(/CRUD de Pessoas/i) // Expressao regular
             expect(navTitile).toBeInTheDocument()
         })
 })

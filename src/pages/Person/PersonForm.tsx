@@ -1,11 +1,11 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
 import {Alert, Button, Form} from "react-bootstrap";
-import api from "../../services/api";
+import apiPessoas from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import PersonFormInterf from "../../types/PersonFormInterf";
 import {cpfMask} from "./Mask";
 
-const Person = () => {
+const Person = ( ) => {
     const navigate = useNavigate()
     const {id} = useParams()
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
@@ -30,16 +30,16 @@ const Person = () => {
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
         if (id !== undefined){
-            const response = await api.put(`/person/${id}`, newPerson)
+            const response = await apiPessoas.put(`/person/${id}`, newPerson)
             navigate(`/address/${id}`)
         }else {
-            const response = await api.post('/person', newPerson)
+            const response = await apiPessoas.post('/person', newPerson)
             navigate('/address')
         }
     }
 
     async function findPerson(id: string){
-        const response = await api.get(`/person/${id}`)
+        const response = await apiPessoas.get(`/person/${id}`)
         setNewPerson({
             name: response.data.name,
             age: response.data.age,

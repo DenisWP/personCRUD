@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {useNavigate} from 'react-router-dom'
 import {Button, Table} from "react-bootstrap";
-import api from "../../services/api";
+import apiPessoas from "../../services/api";
 import PersonInterf from "../../types/PersonInterf"; //importando a tipagem
 import './CrudPerson.styles'
 import { TableHeader } from './CrudPerson.styles'
+import axios from "axios";
 
 const CrudPerson = () => {
     //Declarando variável para pegar os dados da API
@@ -18,7 +19,7 @@ const CrudPerson = () => {
 
     async function loadPerson (){
         //Mudar o servico depois
-        const response = await api.get('/person')
+        const response = await apiPessoas.get('/person')
         console.log(response)
         setPerson(response.data)
     }
@@ -32,7 +33,7 @@ const CrudPerson = () => {
     }
 
     async function deletePessoa(id: number){
-        await api.delete(`/person/${id}`)
+        await apiPessoas.delete(`/person/${id}`)
         loadPerson()
     }
 

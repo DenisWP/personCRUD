@@ -5,16 +5,15 @@ import {render, screen} from "@testing-library/react";
 import Home from "./Home";
 
 describe('<Home/>', () => {
-    test('Validar cabeçalho', () => {
+    test('Validar descrição do Card', () => {
         render(
             <MemoryRouter> {/*Como useu navigate, preciso envolver os testes em um dos componentes <StaticRouter>, <MemoryRouter> ou <BrowserRouter>*/}
                 <Home/>
             </MemoryRouter>
        )
-        const hearderValidation = screen.getByText("CRUD de Pessoas")
+        const hearderValidation = screen.getByText(/Estudo sobre Desenvolvimento WEB./i)
         expect(hearderValidation).toBeInTheDocument()
     })
-
 
     test('Deve conter o botão iniciar', () => {
         render(

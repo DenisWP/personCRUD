@@ -1,20 +1,29 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {Button, Col, Form, FormControl, Row} from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import AddressFormInterf from "../../types/AddressFormInterf";
 import axios from "axios";
 
+
 const AddressForm = () => {
     const navigate = useNavigate()
     const {id, zipcode} = useParams()
+
+    //Instancia da API de Endereço do Elizeu
+    const baseUrlEndereco = process.env.REACT_APP_BASE_URL_ENDERECO
+    const apiEndereco = axios.create({
+        baseURL: baseUrlEndereco
+    })
+
     const [address, setAddress] = useState<AddressFormInterf>({
-        zipcode: '',//cep
-        street: '', // longradouro
-        number: 0, //numero
-        suite: '', //complemento
-        bairro: '', //bairro
-        city: '', // cidade
-        estado: '' //estado
+        id_pessoa: '', // id_pessoa
+        cep: '', //cep
+        logradouro: '', // longradouro
+        numero: 0, //numero
+        complemento: '', //complemento
+        bairro: '', // bairro
+        cidade: '', // cidade
+        uf: '' //estado
     })
 
     useEffect(() => {
@@ -34,22 +43,28 @@ const AddressForm = () => {
         })
     }
 
+
     async function findAddress (id: string){
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
-        console.log(response)
-        setAddress({
-            zipcode: response.data.address.zipcode,
-            street: response.data.address.street,
-            number: response.data.address.number,
-            suite: response.data.address.suite,
-            bairro: response.data.address.city,
-            city: response.data.address.city,
-            estado: response.data.address.estado
-        })
+    const response = await apiEndereco.get(`/pessoa/${id}`)
+        if (id == response.data.id_pessoa) {
+            console.log(response)
+            setAddress({
+                id_pessoa: response.data.id_pessoa,
+                cep: response.data.cep,
+                logradouro: response.data.logradouro,
+                numero: response.data.numero,
+                complemento: response.data.complemento,
+                bairro: response.data.bairro,
+                cidade: response.data.cidade,
+                uf: response.data.uf
+            })
+        }else{
+            alert("Pessoa não cadastrada !")
+        }
     }
 
     async function viaCEP (zipcode: string) {
-        if(zipcode.length !== 8){
+        if(zipcode.length > 9){
             alert("CEP Inválido")
         }
         const responseCep = await  axios.get(`https://viacep.com.br/ws/${zipcode}/json`)
@@ -58,13 +73,14 @@ const AddressForm = () => {
             alert("CEP não encontrado ou Desatualizado ! Porém, o cadastro poderá ser concluído. ")
         }else {
             setAddress({
-                zipcode: responseCep.data.cep,
-                street: responseCep.data.logradouro,
-                number: responseCep.data.number,
-                suite: responseCep.data.suite,
+                id_pessoa: responseCep.data.id_pessoa, // Só para nao dar erro, o via CEP nao tem id
+                cep: responseCep.data.cep,
+                logradouro: responseCep.data.logradouro,
+                numero: responseCep.data.number,
+                complemento: responseCep.data.suite,
                 bairro: responseCep.data.bairro,
-                city: responseCep.data.localidade,
-                estado: responseCep.data.uf
+                cidade: responseCep.data.localidade,
+                uf: responseCep.data.uf
             })
         }
     }
@@ -73,11 +89,12 @@ const AddressForm = () => {
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
         if (id !== undefined){
-            const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, address)
+            //const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, address)
+            const response = await apiEndereco.put(`/endereco/${id}`, address)
             console.log(response)
         }else {
-            const response = await axios.post('https://jsonplaceholder.typicode.com/users/', address)
-            console.log(id)
+            const response = await apiEndereco.post(`/endereco/`, address)
+            console.log(response)
         }
        goHome()
     }
@@ -107,27 +124,27 @@ const AddressForm = () => {
                     <Form.Label>CEP</Form.Label>
                     <Form.Control
                         type="text"
-                        name="zipcode"
-                        value={address.zipcode}
+                        name="cep"
+                        value={address.cep}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Digite o CEP"
                     />
                 </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>ViaCEP</Form.Label><br/>
-                    <Button onClick={() => viaCEP(address.zipcode)}>Pesquisar</Button>
+                    <Button onClick={() => viaCEP(address.cep)}>Pesquisar</Button>
                 </Form.Group>
             </Row>
 
             <Row className="mb-4">
                 <Form.Group as={Col} controlId="formGridLongradouro">
-                    <Form.Label>Longradouro</Form.Label>
+                    <Form.Label>Logradouro</Form.Label>
                     <Form.Control
                         type="text"
-                        name="street"
-                        value={address.street}
+                        name="logradouro"
+                        value={address.logradouro}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
-                        placeholder="Longradouro..."
+                        placeholder="Logradouro..."
                     />
                 </Form.Group>
             </Row>
@@ -138,8 +155,8 @@ const AddressForm = () => {
                     <Form.Label>Número</Form.Label>
                     <Form.Control
                         type="number"
-                        name="number"
-                        value={address.number}
+                        name="numero"
+                        value={address.numero}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Numero"
                     />
@@ -149,8 +166,8 @@ const AddressForm = () => {
                     <Form.Label>Complemento</Form.Label>
                     <Form.Control
                         type="text"
-                        name="suite"
-                        value={address.suite}
+                        name="complemento"
+                        value={address.complemento}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Complemento"
                     />
@@ -173,8 +190,8 @@ const AddressForm = () => {
                     <Form.Label>Cidade</Form.Label>
                     <Form.Control
                         type="text"
-                        name="city"
-                        value={address.city}
+                        name="cidade"
+                        value={address.cidade}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                     />
                 </Form.Group>
@@ -190,8 +207,8 @@ const AddressForm = () => {
                     </Form.Select>*/}
                     <Form.Control
                         type="text"
-                        name="estado"
-                        value={address.estado}
+                        name="uf"
+                        value={address.uf}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                     />
 

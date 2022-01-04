@@ -1,13 +1,8 @@
 import axios from "axios";
 
-const api = axios.create({
-    baseURL: "https://crudpessoaqa.herokuapp.com/",
-    headers: {
-        "Access-Control-Allow-Origin": "*",
-        //"Access-Control-Allow-Headers": "Authorization",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE" ,
-        //"Content-Type": "application/json;charset=UTF-8"
-    }
-})
+const baseUrlPessoas = process.env.REACT_APP_BASE_URL_PESSOAS
 
-export default api;
+const apiPessoas = axios.create({
+    baseURL: baseUrlPessoas,
+})
+export default apiPessoas;
