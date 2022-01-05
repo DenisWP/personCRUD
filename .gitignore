@@ -24,3 +24,8 @@ yarn-error.log*
 
 # stryker temp files
 .stryker-tmp
+
+# cypress
+.DS_Store
+cypress/screenshots/
+cypress/videos/
