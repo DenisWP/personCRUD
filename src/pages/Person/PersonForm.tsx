@@ -1,9 +1,10 @@
 import React, {useState, useEffect, ChangeEvent} from "react";
-import {Alert, Button, Form} from "react-bootstrap";
+import { Button, Form} from "react-bootstrap";
 import apiPessoas from "../../services/api";
 import {useNavigate, useParams} from "react-router-dom";
 import PersonFormInterf from "../../types/PersonFormInterf";
 import {cpfMask} from "./Mask";
+
 
 const Person = ( ) => {
     const navigate = useNavigate()
@@ -30,10 +31,10 @@ const Person = ( ) => {
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
         if (id !== undefined){
-            const response = await apiPessoas.put(`/person/${id}`, newPerson)
+            await apiPessoas.put(`/person/${id}`, newPerson)
             navigate(`/address/${id}`)
-        }else {
-            const response = await apiPessoas.post('/person', newPerson)
+        }else{
+            await apiPessoas.post('/person', newPerson)
             navigate('/address')
         }
     }

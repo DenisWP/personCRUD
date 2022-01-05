@@ -3,12 +3,12 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import AddressFormInterf from "../../types/AddressFormInterf";
 import axios from "axios";
+import apiPessoas from "../../services/api";
 
 
 const AddressForm = () => {
     const navigate = useNavigate()
     const {id, zipcode} = useParams()
-
     //Instancia da API de Endereço do Elizeu
     const baseUrlEndereco = process.env.REACT_APP_BASE_URL_ENDERECO
     const apiEndereco = axios.create({
@@ -46,10 +46,13 @@ const AddressForm = () => {
 
     async function findAddress (id: string){
     const response = await apiEndereco.get(`/pessoa/${id}`)
+        const getDados = await apiPessoas.get(`/person`)
+        const ultimo = getDados.data.pop() // Pop, retornando o ultimo registro no GET.
+
         if (id == response.data.id_pessoa) {
             console.log(response)
             setAddress({
-                id_pessoa: id, //id da pessoa vindo da API da Natali
+                id_pessoa: ultimo.id, //id da pessoa vindo da API da Natali
                 cep: response.data.cep,
                 logradouro: response.data.logradouro,
                 numero: response.data.numero,
@@ -72,8 +75,10 @@ const AddressForm = () => {
         if (responseCep.data.erro == true){
             alert("CEP não encontrado ou Desatualizado ! Porém, o cadastro poderá ser concluído. ")
         }else {
+            const getDados = await apiPessoas.get(`/person`)
+            const ultimo = getDados.data.pop() // Pop, retornando o ultimo registro no GET.
             setAddress({
-                id_pessoa: responseCep.data.id_pessoa, // Só para nao dar erro, o via CEP nao tem id
+                id_pessoa: ultimo.id, // Só para nao dar erro, o via CEP nao tem id
                 cep: responseCep.data.cep,
                 logradouro: responseCep.data.logradouro,
                 numero: responseCep.data.number,
@@ -90,7 +95,8 @@ const AddressForm = () => {
         e.preventDefault()
         if (id !== undefined){
             const responseAddress = await apiEndereco.get(`/pessoa/${id}`)
-            const response = await apiEndereco.put(`/endereco/${responseAddress.data.id}`, address)
+            const idAddress = responseAddress.data.id
+            const response = await apiEndereco.put(`/endereco/${idAddress}`, address)
             console.log(response)
         }else {
             const response = await apiEndereco.post(`/endereco/`, address)
