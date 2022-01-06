@@ -5,7 +5,6 @@ import AddressFormInterf from "../../types/AddressFormInterf";
 import axios from "axios";
 import apiPessoas from "../../services/api";
 
-
 const AddressForm = () => {
     const navigate = useNavigate()
     const {id, zipcode} = useParams()
@@ -42,7 +41,6 @@ const AddressForm = () => {
             [e.target.name]: e.target.value
         })
     }
-
 
     async function findAddress (id: string){
     const response = await apiEndereco.get(`/pessoa/${id}`)
@@ -134,6 +132,7 @@ const AddressForm = () => {
                         value={address.cep}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Digite o CEP"
+                        required
                     />
                 </Form.Group>
                 <Form.Group as={Col}>
@@ -151,6 +150,7 @@ const AddressForm = () => {
                         value={address.logradouro}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Logradouro..."
+                        required
                     />
                 </Form.Group>
             </Row>
@@ -165,6 +165,7 @@ const AddressForm = () => {
                         value={address.numero}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Numero"
+                        required
                     />
                 </Form.Group>
 
@@ -176,6 +177,7 @@ const AddressForm = () => {
                         value={address.complemento}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
                         placeholder="Complemento"
+                        required
                     />
                 </Form.Group>
             </Row>
@@ -189,6 +191,7 @@ const AddressForm = () => {
                         name="bairro"
                         value={address.bairro}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
+                        required
                     />
                 </Form.Group>
 
@@ -199,6 +202,7 @@ const AddressForm = () => {
                         name="cidade"
                         value={address.cidade}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
+                        required
                     />
                 </Form.Group>
 
@@ -216,6 +220,7 @@ const AddressForm = () => {
                         name="uf"
                         value={address.uf}
                         onChange={(e:ChangeEvent<HTMLInputElement>) => updateAddress(e)}
+                        required
                     />
 
                 </Form.Group>

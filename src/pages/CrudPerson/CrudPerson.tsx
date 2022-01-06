@@ -12,6 +12,12 @@ const CrudPerson = () => {
     const [person, setPerson] = useState<PersonInterf[]>([])
     const navigate = useNavigate()
 
+    const baseUrlEndereco = process.env.REACT_APP_BASE_URL_ENDERECO
+    const apiEndereco = axios.create({
+        baseURL: baseUrlEndereco
+    })
+
+
     //Usado para executar a funcao, assim que a página for iniciada.
     useEffect(() => {
         loadPerson();
@@ -33,7 +39,12 @@ const CrudPerson = () => {
     }
 
     async function deletePessoa(id: number){
+       const getEndereco = await apiEndereco.get(`/pessoa/${id}`)
+       const idEndereco = getEndereco.data.id
+
         await apiPessoas.delete(`/person/${id}`)
+        await apiEndereco.delete(`/endereco/${idEndereco}`)
+
         loadPerson()
     }
 

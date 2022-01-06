@@ -10,6 +10,7 @@ const Person = ( ) => {
     const navigate = useNavigate()
     const {id} = useParams()
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
+        id: '',
         name: '',
         age: 0,
         cpf: ''
@@ -21,7 +22,7 @@ const Person = ( ) => {
         }
     }, [id])
 
-    function updatedPerson (e: ChangeEvent<HTMLInputElement>){
+    async function updatedPerson (e: ChangeEvent<HTMLInputElement>){
         setNewPerson({
             ...newPerson,
             [e.target.name]:e.target.value
@@ -38,10 +39,11 @@ const Person = ( ) => {
             navigate('/address')
         }
     }
-
+    // id da pessoa tem que enviar no PUT.
     async function findPerson(id: string){
         const response = await apiPessoas.get(`/person/${id}`)
         setNewPerson({
+            id: id,
             name: response.data.name,
             age: response.data.age,
             cpf: response.data.cpf
@@ -70,6 +72,7 @@ const Person = ( ) => {
                             value={newPerson.name}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Nome completo"
+                            required
                         />
                     </Form.Group>
                     <br/>
@@ -82,6 +85,7 @@ const Person = ( ) => {
                             value={newPerson.age}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="Idade"
+                            required
                         />
                     </Form.Group>
                     <br/>
@@ -94,6 +98,7 @@ const Person = ( ) => {
                             value={cpfMask(newPerson.cpf)}
                             onChange={(e:ChangeEvent<HTMLInputElement>) => updatedPerson(e)}
                             placeholder="CPF"
+                            required
                         />
                     </Form.Group>
                     <br/>
