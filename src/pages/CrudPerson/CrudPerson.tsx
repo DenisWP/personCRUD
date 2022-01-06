@@ -42,8 +42,9 @@ const CrudPerson = () => {
        const getEndereco = await apiEndereco.get(`/pessoa/${id}`)
        const idEndereco = getEndereco.data.id
 
-        await apiPessoas.delete(`/person/${id}`)
-        await apiEndereco.delete(`/endereco/${idEndereco}`)
+       await apiPessoas.delete(`/person/${id}`)
+       await apiEndereco.delete(`/endereco/${idEndereco}`)
+
 
         loadPerson()
     }
