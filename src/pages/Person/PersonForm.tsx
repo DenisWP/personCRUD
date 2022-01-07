@@ -16,6 +16,7 @@ const Person = ( ) => {
         cpf: ''
     })
 
+    /*É um hook: Executar o código, só quando um componente sofre um update*/
     useEffect(() => {
         if (id !== undefined){
             findPerson(id)
@@ -25,7 +26,7 @@ const Person = ( ) => {
     async function updatedPerson (e: ChangeEvent<HTMLInputElement>){
         setNewPerson({
             ...newPerson,
-            [e.target.name]:e.target.value
+            [e.target.name]:e.target.value //name do input, e o value é o atual. Pega o valor do input e passa o valor para ela. Pega pelo name na no input e passa para o target.
         })
     }
 
@@ -33,21 +34,30 @@ const Person = ( ) => {
         e.preventDefault()
         if (id !== undefined){
             await apiPessoas.put(`/person/${id}`, newPerson)
-            navigate(`/address/${id}`)
+                .then((response) =>{
+                    navigate(`/address/${id}`)
+                })
         }else{
             await apiPessoas.post('/person', newPerson)
-            navigate('/address')
+                .then((response) => {
+                    const id = response.data.id
+                    //navigate(`/address/${id}`)
+                    navigate(`/address`, {})
+                })
         }
     }
+
     // id da pessoa tem que enviar no PUT.
     async function findPerson(id: string){
-        const response = await apiPessoas.get(`/person/${id}`)
-        setNewPerson({
-            id: id,
-            name: response.data.name,
-            age: response.data.age,
-            cpf: response.data.cpf
-        })
+        await apiPessoas.get(`/person/${id}`)
+            .then((response) => {
+                setNewPerson({
+                    id: id,
+                    name: response.data.name,
+                    age: response.data.age,
+                    cpf: response.data.cpf
+                })
+            })
     }
 
     function back (){

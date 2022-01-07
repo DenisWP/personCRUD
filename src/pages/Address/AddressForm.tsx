@@ -28,9 +28,9 @@ const AddressForm = () => {
     useEffect(() => {
         if (id !== undefined){
             findAddress(id)
-                if(zipcode !== undefined){
-                    viaCEP(zipcode)
-                }
+            if(zipcode !== undefined){
+                viaCEP(zipcode)
+            }
         }
     }, [id, zipcode])
 
@@ -43,14 +43,15 @@ const AddressForm = () => {
     }
 
     async function findAddress (id: string){
-    const response = await apiEndereco.get(`/pessoa/${id}`)
+        const response = await apiEndereco.get(`/pessoa/${id}`)
+
         const getDados = await apiPessoas.get(`/person`)
-        const ultimo = getDados.data.pop() // Pop, retornando o ultimo registro no GET.
+        const ultimo = getDados.data.pop()
 
         if (id == response.data.id_pessoa) {
             console.log(response)
             setAddress({
-                id_pessoa: ultimo.id, //id da pessoa vindo da API da Natali
+                id_pessoa: id, //id da pessoa vindo da API da Natali
                 cep: response.data.cep,
                 logradouro: response.data.logradouro,
                 numero: response.data.numero,
@@ -100,7 +101,7 @@ const AddressForm = () => {
             const response = await apiEndereco.post(`/endereco/`, address)
             console.log(response)
         }
-       goHome()
+        goHome()
     }
 
     function goPerson (){
@@ -116,7 +117,7 @@ const AddressForm = () => {
     }
 
 
-   return(
+    return(
         <Form className="container" onSubmit={onSubmit}>
             <br/>
             <div className="person-header">

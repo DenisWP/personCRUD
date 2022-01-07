@@ -11,12 +11,10 @@ const CrudPerson = () => {
     //Declarando variável para pegar os dados da API
     const [person, setPerson] = useState<PersonInterf[]>([])
     const navigate = useNavigate()
-
     const baseUrlEndereco = process.env.REACT_APP_BASE_URL_ENDERECO
     const apiEndereco = axios.create({
         baseURL: baseUrlEndereco
     })
-
 
     //Usado para executar a funcao, assim que a página for iniciada.
     useEffect(() => {
@@ -24,10 +22,21 @@ const CrudPerson = () => {
     }, [])
 
     async function loadPerson (){
-        //Mudar o servico depois
-        const response = await apiPessoas.get('/person')
-        console.log(response)
-        setPerson(response.data)
+        await apiPessoas.get('/person')
+            .then((response) => {
+                setPerson(response.data)
+            })
+    }
+
+    async function deletePessoa(id: number){
+       const getEndereco = await apiEndereco.get(`/pessoa/${id}`)
+       const idEndereco = getEndereco.data.id
+
+       await apiPessoas.delete(`/person/${id}`)
+           .then(async (response) => {
+               await apiEndereco.delete(`/endereco/${idEndereco}`)
+               loadPerson()
+       })
     }
 
     function newPessoa () {
@@ -36,17 +45,6 @@ const CrudPerson = () => {
 
     function editPessoa (id: number) {
         navigate(`/pessoas_cadastro/${id}`);
-    }
-
-    async function deletePessoa(id: number){
-       const getEndereco = await apiEndereco.get(`/pessoa/${id}`)
-       const idEndereco = getEndereco.data.id
-
-       await apiPessoas.delete(`/person/${id}`)
-       await apiEndereco.delete(`/endereco/${idEndereco}`)
-
-
-        loadPerson()
     }
 
     function goInicio(){
