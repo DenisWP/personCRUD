@@ -8,7 +8,7 @@ import {cpfMask} from "./Mask";
 
 const Person = ( ) => {
     const navigate = useNavigate()
-    const {id} = useParams()
+    const {id} =  useParams()
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
         id: '',
         name: '',
@@ -41,8 +41,9 @@ const Person = ( ) => {
             await apiPessoas.post('/person', newPerson)
                 .then((response) => {
                     const id = response.data.id
-                    //navigate(`/address/${id}`)
-                    navigate(`/address`, {})
+                    navigate(`/address/${id}`)
+                    //this.props.navigate(`/address`, {idCliente : id})
+
                 })
         }
     }

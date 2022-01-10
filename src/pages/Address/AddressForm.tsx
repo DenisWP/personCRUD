@@ -15,7 +15,7 @@ const AddressForm = () => {
     })
 
     const [address, setAddress] = useState<AddressFormInterf>({
-        id_pessoa: '', // id_pessoa
+        id_pessoa: 0, // id_pessoa
         cep: '', //cep
         logradouro: '', // longradouro
         numero: 0, //numero
@@ -28,9 +28,10 @@ const AddressForm = () => {
     useEffect(() => {
         if (id !== undefined){
             findAddress(id)
-            if(zipcode !== undefined){
-                viaCEP(zipcode)
-            }
+        }
+        if(zipcode !== undefined){
+             viaCEP(zipcode)
+
         }
     }, [id, zipcode])
 
@@ -38,32 +39,29 @@ const AddressForm = () => {
     function updateAddress (e: ChangeEvent<HTMLInputElement>){
         setAddress({
             ...address,
+            id_pessoa: Number(id),
             [e.target.name]: e.target.value
         })
     }
 
-    async function findAddress (id: string){
-        const response = await apiEndereco.get(`/pessoa/${id}`)
-
-        const getDados = await apiPessoas.get(`/person`)
-        const ultimo = getDados.data.pop()
-
-        if (id == response.data.id_pessoa) {
-            console.log(response)
-            setAddress({
-                id_pessoa: id, //id da pessoa vindo da API da Natali
-                cep: response.data.cep,
-                logradouro: response.data.logradouro,
-                numero: response.data.numero,
-                complemento: response.data.complemento,
-                bairro: response.data.bairro,
-                cidade: response.data.cidade,
-                uf: response.data.uf
-            })
-        }else{
-            alert("Pessoa não cadastrada !")
-        }
-    }
+    async function findAddress(id: string){
+           await apiEndereco.get(`/pessoa/${id}`)
+               .then((response) => {
+                   setAddress({
+                           id_pessoa: Number(id),
+                           cep: response.data.cep,
+                           logradouro: response.data.logradouro,
+                           numero: response.data.numero,
+                           complemento: response.data.complemento,
+                           bairro: response.data.bairro,
+                           cidade: response.data.cidade,
+                           uf: response.data.uf
+                       })
+               })
+               .catch(function (error) {
+                   console.error(error)
+           })
+   }
 
     async function viaCEP (zipcode: string) {
         if(zipcode.length > 9){
@@ -74,10 +72,8 @@ const AddressForm = () => {
         if (responseCep.data.erro == true){
             alert("CEP não encontrado ou Desatualizado ! Porém, o cadastro poderá ser concluído. ")
         }else {
-            const getDados = await apiPessoas.get(`/person`)
-            const ultimo = getDados.data.pop() // Pop, retornando o ultimo registro no GET.
             setAddress({
-                id_pessoa: ultimo.id, // Só para nao dar erro, o via CEP nao tem id
+                id_pessoa: Number(id), // Só para nao dar erro, o via CEP nao tem id
                 cep: responseCep.data.cep,
                 logradouro: responseCep.data.logradouro,
                 numero: responseCep.data.number,
@@ -89,18 +85,17 @@ const AddressForm = () => {
         }
     }
 
-    // Funcao para enviar os dados para o BD (api do Elizeu)
     async  function onSubmit (e:ChangeEvent<HTMLFormElement>){
         e.preventDefault()
-        if (id !== undefined){
-            const responseAddress = await apiEndereco.get(`/pessoa/${id}`)
-            const idAddress = responseAddress.data.id
-            const response = await apiEndereco.put(`/endereco/${idAddress}`, address)
-            console.log(response)
-        }else {
-            const response = await apiEndereco.post(`/endereco/`, address)
-            console.log(response)
-        }
+            await apiEndereco.get(`/pessoa/${id}`)
+                .then(async (response) => {
+                    if (response.data.id_pessoa == id) {
+                        await apiEndereco.put(`/endereco/${response.data.id}`, address)
+                    }
+                })
+                .catch(async () => {
+                    await apiEndereco.post(`/endereco/`, address)
+                })
         goHome()
     }
 
@@ -115,7 +110,6 @@ const AddressForm = () => {
     function goHome(){
         navigate('/pessoas')
     }
-
 
     return(
         <Form className="container" onSubmit={onSubmit}>

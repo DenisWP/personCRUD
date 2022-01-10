@@ -1,6 +1,6 @@
 interface AddressFormInterf {
     //Mudar quando alterar para api do Elizeu.
-    id_pessoa: string // id_pessoa
+    id_pessoa: number // id_pessoa
     cep: string //cep
     logradouro: string // longradouro
     numero: number //numero
