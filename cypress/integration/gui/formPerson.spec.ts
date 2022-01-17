@@ -5,7 +5,5 @@ describe('Validate required fields', () => {
 
     it ('Validate required fields', () => {
         cy.newperson()
-
-
     })
 })

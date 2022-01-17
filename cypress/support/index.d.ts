@@ -3,6 +3,7 @@ declare namespace Cypress {
     interface Chainable {
         iniciar(): Chainable<Element> //Declarando o comando iniciar.
         newperson(): Chainable<Element> //Declarando o comando newperson
+        gui_createPersonViaCep(newPerson): Chainable<Element> //Cadastrar nova pessoa com viaCEP.
         gui_createPerson(newPerson): Chainable<Element> //Cadastrar nova pessoa.
     }
 }

@@ -3,9 +3,9 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import AddressFormInterf from "../../types/AddressFormInterf";
 import axios from "axios";
-import apiPessoas from "../../services/api";
 
-const AddressForm = () => {
+
+const AddressForm = ( ) => {
     const navigate = useNavigate()
     const {id, zipcode} = useParams()
     //Instancia da API de Endereço do Elizeu
@@ -29,11 +29,7 @@ const AddressForm = () => {
         if (id !== undefined){
             findAddress(id)
         }
-        if(zipcode !== undefined){
-             viaCEP(zipcode)
-
-        }
-    }, [id, zipcode])
+    }, [id])
 
     // Funcao para atualizar os valores do endereco, de acordo com cada campo
     function updateAddress (e: ChangeEvent<HTMLInputElement>){
@@ -112,7 +108,7 @@ const AddressForm = () => {
     }
 
     return(
-        <Form className="container" onSubmit={onSubmit}>
+        <Form className="container" data-testid="formendereco" onSubmit={onSubmit}>
             <br/>
             <div className="person-header">
                 <h3>Endereço</h3>

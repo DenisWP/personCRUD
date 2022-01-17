@@ -6,7 +6,7 @@ import PersonFormInterf from "../../types/PersonFormInterf";
 import {cpfMask} from "./Mask";
 
 
-const Person = ( ) => {
+const Person = () => {
     const navigate = useNavigate()
     const {id} =  useParams()
     const [newPerson, setNewPerson] = useState<PersonFormInterf>({
@@ -73,7 +73,7 @@ const Person = ( ) => {
             </div>
             <br/>
             <div className="container">
-                <Form onSubmit={onSubmit} role="form">
+                <Form onSubmit={onSubmit}>
                     <Form.Group>
                         <Form.Label>Nome completo</Form.Label>
                         <Form.Control
